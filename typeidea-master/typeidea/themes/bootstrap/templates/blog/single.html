@@ -1,0 +1,52 @@
+{% extends './base.html' %}
+{% load static %}
+
+
+
+{% block highlight %}
+    <link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">
+   <script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+   <script >hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+
+
+{% block title %}
+    <div class="clean-breadcrumb">
+    <a href="#">Blog</a>
+    <span class="separator">&#x2F;</span>
+    <a href="#">Bootstrap</a>
+    <span class="separator">&#x2F;</span>
+    <a href="#">HTML Template</a>
+    </div>
+{% endblock %}
+
+{% block main %}
+
+    {{ post.music|safe }}
+    <div class="widewrapper main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 blog-main">
+                    <article class="blog-post">
+                        <header>
+
+                            <div class="lead-image">
+                                <img src="{% static 'img/single-post.jpg' %}" alt="" class="img-responsive">
+
+                            </div>
+                        </header>
+                        <div class="body">
+                            <h1>{{ post.title }}</h1>
+                            <div class="meta">
+                                <i class="fa fa-user"></i> {{ post.owner.username }} <i class="fa fa-calendar"></i>{{ post.created_time }}<i class="fa fa-comments"></i>
+                            </div>
+                            {% autoescape off %}
+                                {{ post.content }}
+                            {% endautoescape %}
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block main %}
+
+        <div class="widewrapper main">
+        <div class="container about">
+            <img src="{% static 'img/back.png' %}">
+            <h1>姓名<span class="about-bold">  郭留阳</span></h1>
+            <p>热爱音乐, 热爱技术, 爱身边的一切</p>
+            <div class="about-button">
+                <a class="btn btn-xlarge btn-clean-one" href="{% url 'contact' %}">Contact Me</a>
+            </div>
+            <hr>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block aside %}
+
+{% endblock %}

@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Leon</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Bootstrap styles -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" href="{% static 'css/font-awesome/css/font-awesome.min.css' %}">
+
+    <!-- Google Webfonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|PT+Serif:400,400italic' rel='stylesheet' type='text/css'>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" id="theme-styles">
+
+    <!--[if lt IE 9]>
+        <script src="{% static 'js/vendor/google/html5-3.6-respond-1.1.0.min.js' %}"></script>
+    <![endif]-->
+    {% block highlight %}
+    {% endblock %}
+
+
+</head>
+<body >
+    <header>
+        <div class="widewrapper masthead">
+            <div class="container">
+                <div class="row">
+                    <img src="{% static 'img/title.jpg' %}" alt="" width="100%" height="40%" >
+                </div>
+                <div id="mobile-nav-toggle" class="pull-right">
+                    <a href="#" data-toggle="collapse" data-target=".clean-nav .navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                <nav class="pull-right clean-nav">
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav nav-pills navbar-nav">
+
+                            <li>
+                                <a href="{% url 'index' %}">Home</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'about' %}">About</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'contact' %}">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+            </div>
+        </div>
+
+        <h2 align="center">Leon Blog</h2>
+        <div class="widewrapper subheader">
+            <div class="container">
+                {% block title %}
+                <div class="clean-breadcrumb">
+                    <span>Stay hungry, Stay foolish.</span>
+                </div>
+                {% endblock %}
+
+                <div class="clean-searchbox">
+                    <form action="{% url 'search' %}" method="get" accept-charset="utf-8">
+                        <input class="searchfield" id="searchbox" type="text" name='keyword' placeholder="Search">
+                        <button class="searchbutton" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="widewrapper main">
+        <div class="container">
+            <div class="row">
+                <!--  侧边栏 -->
+                {% block aside %}
+                    <aside class="col-md-4 blog-aside">
+                    <!--  分类 -->
+
+                    <div class="aside-widget">
+                        <header>
+                            <h3>分类</h3>
+                        </header>
+                        <div class="body clearfix">
+                            <ul class="tags">
+                                {% for cate in categories %}
+                                    <li><a href="{% url 'category-list' cate.id %}">{{ cate.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--  标签开始 -->
+                    <div class="aside-widget">
+                        <header>
+                            <h3>标签</h3>
+                        </header>
+                        <div class="body clearfix">
+                            <ul class="tags">
+                                {% for tag in Tags %}
+                                    <li><a href="{% url 'tag-list' tag.id %}">{{ tag.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="aside-widget">
+                        <header>
+                            <h3>这里不是最热文章^.^</h3>
+                        </header>
+                        <div class="body">
+                            <ul class="clean-list">
+                                {% for post in read_posts %}
+                                    <li><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="aside-widget">
+                        <header>
+                            <h3>最近的文章QAQ</h3>
+                        </header>
+                        <div class="body">
+                            <ul class="clean-list">
+                                {% for post in latest_posts %}
+                                    <li><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></li>
+                                {% endfor %}
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="aside-widget">
+                        <header>
+                            <h3>友情链接</h3>
+                        </header>
+                        <div class="body">
+                            <ul class="clean-list">
+                                {% for link in Links %}
+                                    <li><a href="{{ link.href }}">{{ link.title }}</a></li>
+                                {% endfor %}
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </aside>
+                {% endblock %}
+                <div class="col-md-8 blog-main">
+                {% if result %}
+                    <h3>标题或者摘要中包含 "{{ keyword }}" 的文章:</h3>
+                    <hr>
+                {% endif %}
+                        {% block main %}
+                        {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/modernizr.js' %}"></script>
+{% block script %}
+{% endblock %}
+
+
+</body>
+</html>

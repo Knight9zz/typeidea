@@ -1,0 +1,50 @@
+{% extends './base.html' %}
+{% load static %}
+{% block main %}
+        <div class="widewrapper main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 clean-superblock" id="contact">
+                    <h2>Contact</h2>
+
+                    <form action="https://formspree.io/1650674589@qq.com" method="post" accept-charset="utf-8" class="contact-form" id="content">
+                        {% csrf_token %}
+                        <input type="text" name="name" id="contact-name" placeholder="姓名" class="form-control input-lg">
+                        <input type="email" name="email" id="contact-email" placeholder="Email" class="form-control input-lg">
+                        <textarea rows="10" name="message" id="contact-body" placeholder="Your Message" class="form-control input-lg"></textarea>
+                        <div class="buttons clearfix">
+                            <button type="submit" class="btn btn-xlarge btn-clean-one", id="btn">提交</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block aside %}
+
+{% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+<script>
+	$("#btn").on("click",function(){
+		var obj = $("#content").serialize();
+		$.ajax({
+			type:"post",
+			url:"https://formspree.io/1650674589@qq.com",
+			async:true,
+			data:obj,
+			dataType:"json",
+			success: res=>{
+				alert('邮件已发送!!!');
+			},
+			error:res=>{
+				alert("未知错误,发送失败");
+			}
+		});
+	})
+</script>
+{% endblock %}
