@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
-
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class Category(models.Model):
 
@@ -74,7 +74,7 @@ class Post(models.Model):
 
     title = models.CharField(max_length=255, verbose_name='标题')
     desc = models.CharField(max_length=1024, verbose_name='摘要', blank=True)
-    content = models.TextField(verbose_name='正文', help_text='正文必须为MarkDown格式')
+    content = RichTextUploadingField(verbose_name='正文')
     status = models.PositiveIntegerField(default=STATUS_NORMAL,
         choices=STATUS_ITEMS, verbose_name='状态')
     category = models.ForeignKey(Category, verbose_name='分类', on_delete=None)

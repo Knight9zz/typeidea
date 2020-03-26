@@ -23,6 +23,9 @@ from blog.classview import (
     TagView, PostDetailView,
     SearchView,
 )
+from django.conf.urls.static import static
+from django.conf import settings
+from django.conf.urls import url, include
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
@@ -34,5 +37,7 @@ urlpatterns = [
     url(r'^contact/$', views.Contact, name='contact'),
     url(r'^admin/', admin.site.urls, name='admin'),
     url(r'^search/$', SearchView.as_view(), name='search'),
-]
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
