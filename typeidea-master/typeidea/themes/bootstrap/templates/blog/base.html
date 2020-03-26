@@ -158,7 +158,7 @@
 
                 </aside>
                 {% endblock %}
-                <div class="col-md-8 blog-main">
+                <div class="col-md-8 blog-main" id="jmp">
                 {% if result %}
                     <h3>标题或者摘要中包含 "{{ keyword }}" 的文章:</h3>
                     <hr>
@@ -173,6 +173,9 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/modernizr.js' %}"></script>
+    <script>
+        $('html, body').animate({scrollTop: $('#jmp').offset().top}, 1000)
+    </script>
 {% block script %}
 {% endblock %}
 
