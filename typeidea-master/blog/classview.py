@@ -3,8 +3,10 @@ from .models import Post
 from config.models import SideBar
 from .models import Post, Category, Tag
 from django.shortcuts import get_object_or_404
-from django.db.models import Q
+from django.db.models import Q, F
 from config.models import Link
+from datetime import date
+from django.core.cache import cache
 
 class CommonViewMixin:
     def get_context_data(self, **kwargs):
@@ -13,7 +15,7 @@ class CommonViewMixin:
             'categories': Category.objects.all(),
             'Tags': Tag.objects.all(),
             'latest_posts': Post.latest_posts(),
-            'read_posts': Post.objects.filter(status=Post.STATUS_NORMAL).order_by('created_time'),
+            'read_posts': Post.hot_posts(),
             'Links': Link.objects.filter(status=Link.STATUS_NORMAL),
         })
         return context
@@ -59,6 +61,34 @@ class PostDetailView(CommonViewMixin, DetailView):
     template_name = 'blog/single.html'
     context_object_name = 'post'
     pk_url_kwarg = 'post_id'
+
+    def get(self, request, *args, **kwargs):
+        response = super(PostDetailView, self).get(request, *args, **kwargs)
+        self.handle_visited()
+        return response
+
+    def handle_visited(self):
+        increase_pv = False
+        increase_uv = False
+        uid = self.request.uid
+        pv_key = 'pv:%s:%s'%(uid, self.request.path)
+        uv_key = 'uv:%s:%s:%s'%(uid, str(date.today()), self.request.path)
+
+        if not cache.get(pv_key):
+            increase_pv = True
+            cache.set(pv_key, 1, 1*60)
+
+        if not cache.get(uv_key):
+            increase_uv = True
+            cache.set(uv_key, 1, 24*60*60)
+
+        if increase_pv:
+            Post.objects.filter(pk=self.object.id).update(pv=F('pv')+1)
+
+        if increase_uv:
+            Post.objects.filter(pk=self.object.id).update(uv=F('uv')+1)
+
+
 
 
 class SearchView(IndexView):

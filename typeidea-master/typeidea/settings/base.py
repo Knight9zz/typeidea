@@ -56,6 +56,7 @@ CKEDITOR_CONFIGS = {
 }
 
 MIDDLEWARE = [
+    'blog.middleware.user_id.UserIDMiddleWare',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

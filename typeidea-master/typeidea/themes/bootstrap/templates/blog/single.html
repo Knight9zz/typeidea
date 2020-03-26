@@ -28,17 +28,18 @@
             <div class="row">
                 <div class="col-md-8 blog-main">
                     <article class="blog-post">
+
                         <header>
 
                             <div class="lead-image">
                                 <img src="{% static 'img/single-post.jpg' %}" alt="" class="img-responsive">
-
                             </div>
                         </header>
+
                         <div class="body">
                             <h1>{{ post.title }}</h1>
                             <div class="meta">
-                                <i class="fa fa-user"></i> {{ post.owner.username }} <i class="fa fa-calendar"></i>{{ post.created_time }}<i class="fa fa-comments"></i>
+                                <i class="fa fa-user"></i> {{ post.owner.username }} <i class="fa fa-calendar"></i>{{ post.created_time }}<i class="fa fa-comments">(阅读:){{ post.pv }}</i>
                             </div>
                             {% autoescape off %}
                                 {{ post.content }}
